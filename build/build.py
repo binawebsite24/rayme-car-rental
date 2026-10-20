@@ -12,37 +12,83 @@ manifest  = json.loads(tag("manifest"))
 ext       = json.loads(tag("ext_resources"))
 template  = json.loads(tag("template"))
 
-# img id -> original upload name, from the page's own __RID map
-rid = json.loads(re.search(r'__RID = (\{.*?\})', template, re.S).group(1))
-def slug(upload_path):
-    base = upload_path.split("/")[-1]
-    base = re.sub(r'\.(jpe?g|png|webp)_\d+\.(jpe?g|png|webp)$', '', base, flags=re.I)
-    base = re.sub(r'\.(jpe?g|png|webp)$', '', base, flags=re.I)
-    return re.sub(r'[^a-z0-9]+', '-', base.lower()).strip('-')
-img_name = {v: slug(k) for k, v in rid.items()}
+# ---------------------------------------------------------------- asset names
+# Nothing below is pinned to a uuid or a resource id. A fresh artifact export
+# renumbers both (ids went img7 -> r0, and every uuid changed), so names are
+# derived from how the page itself refers to each asset.
 
-NAMES = {
-    "8d27ddbd-7daf-4c2b-9c33-3528b2b3edca": "assets/js/dc-runtime.js",
-    "a4e26679-9589-4f6c-8f6d-59c48e2a7f4a": "assets/js/design-system.js",
-    "6379daac-fcb4-4048-b71e-7c7f15c4b682": "assets/fonts/wix-madefor-display.woff2",
-    "dd095439-97fe-44b5-8426-989a6b43f6cd": "assets/fonts/wix-madefor-text.woff2",
-}
+# resource id -> the upload/doc path it was authored as, from the page's own
+# map (older exports called this __RID).
+rid      = json.loads(re.search(r'\b_*RID\s*=\s*(\{.*?\})', template, re.S).group(1))
+src_path = {v: k for k, v in rid.items()}
+
 id_by_uuid = {e["uuid"]: e["id"] for e in ext}
 
-if os.path.isdir(OUT): shutil.rmtree(OUT)
-written = {}
+EXT = {
+    "image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp",
+    "application/pdf": ".pdf", "font/woff2": ".woff2",
+    "text/javascript": ".js", "application/javascript": ".js",
+}
+
+def slug(name):
+    """'uploads/axia-white.jpg_20261019153125.jpg' -> 'axia-white'"""
+    base = name.split("/")[-1]
+    # Upload names carry a timestamp, and sometimes a content hash, before the
+    # real extension: 'foo.jpg_20261019153125-a56e66ab.jpg'.
+    base = re.sub(r'\.(jpe?g|png|webp)_\d+(?:-[0-9a-f]+)?\.(jpe?g|png|webp)$', '',
+                  base, flags=re.I)
+    base = re.sub(r'\.(jpe?g|png|webp|pdf)$', '', base, flags=re.I)
+    return re.sub(r'[^a-z0-9]+', '-', base.lower()).strip('-')
+
+def asset_path(uuid, mime, data):
+    """Where an unpacked asset belongs, decided by how the page refers to it."""
+    ident = id_by_uuid.get(uuid, uuid)
+    ext_  = EXT.get(mime)
+    if ext_ is None:
+        raise SystemExit("unknown mime %r for asset %s" % (mime, uuid))
+
+    # Fonts: named after the font-family the page's own @font-face declares.
+    if mime == "font/woff2":
+        m = re.search(r"font-family:'([^']+)'[^}]*?url\(\"%s\"\)" % re.escape(uuid),
+                      template)
+        if not m:
+            raise SystemExit("no @font-face rule found for font %s" % uuid)
+        family = re.sub(r'[^a-z0-9]+', '-', m.group(1).lower()).strip('-')
+        return "assets/fonts/%s%s" % (family, ext_)
+
+    # Scripts pulled from a CDN keep their upstream filename.
+    if ident.startswith("http"):
+        return "assets/js/" + ident.rsplit("/", 1)[-1]
+
+    # The two generated bundles identify themselves in their first line.
+    if ext_ == ".js":
+        head = data[:200]
+        if b"@ds-bundle" in head:  return "assets/js/design-system.js"
+        if b"dc-runtime"  in head: return "assets/js/dc-runtime.js"
+        raise SystemExit("unrecognised script asset: %s" % uuid)
+
+    # Everything else is authored content: an upload, or a linked document.
+    if ident in src_path:
+        folder = "assets/docs" if ext_ == ".pdf" else "assets/images"
+        return "%s/%s%s" % (folder, slug(src_path[ident]), ext_)
+
+    raise SystemExit("unmapped asset: %s (%s, %s)" % (uuid, ident, mime))
+
+# Decode and place every asset before touching public/, so a source the script
+# no longer understands fails without leaving a half-built site behind.
+unpacked = []
 for uuid, entry in manifest.items():
     data = base64.b64decode(entry["data"])
     if entry.get("compressed"): data = gzip.decompress(data)
-    ident = id_by_uuid.get(uuid, uuid)
-    if uuid in NAMES:
-        path = NAMES[uuid]
-    elif ident.startswith("http"):
-        path = "assets/js/" + ident.rsplit("/", 1)[-1]
-    elif ident in img_name:
-        path = "assets/images/%s.jpg" % img_name[ident]
-    else:
-        raise SystemExit("unmapped asset: %s (%s)" % (uuid, ident))
+    unpacked.append((uuid, asset_path(uuid, entry["mime"], data), data))
+
+dupes = {p for _, p, _ in unpacked if [x[1] for x in unpacked].count(p) > 1}
+if dupes:
+    raise SystemExit("two assets map to the same path: %s" % ", ".join(sorted(dupes)))
+
+if os.path.isdir(OUT): shutil.rmtree(OUT)
+written = {}
+for uuid, path, data in unpacked:
     full = os.path.join(OUT, path)
     os.makedirs(os.path.dirname(full), exist_ok=True)
     open(full, "wb").write(data)
@@ -53,11 +99,16 @@ out = template
 # --- Fix: dc-runtime calls componentDidUpdate(prevProps) with ONE argument, but
 # the page component's signature is componentDidUpdate(_, prevState). `ps` is
 # therefore undefined and `ps.open` throws on every update, so the body
-# scroll-lock behind the mobile nav never applies. Track prev open ourselves.
+# scroll-lock never applies. Track the previous value on the instance instead.
+#
+# The page also has two things that overlay the viewport: `open` (the car
+# detail modal) and `menu` (the mobile nav). The authored handler only watches
+# `open`, which leaves the page scrolling behind the open nav, so the lock is
+# widened to cover both.
 _BAD = "componentDidUpdate(_, ps) { if (ps.open !== this.state.open) document.body.style.overflow = this.state.open ? 'hidden' : ''; }"
-_GOOD = ("componentDidUpdate(_, ps) { const prev = ps ? ps.open : this._prevOpen; "
-         "if (prev !== this.state.open) document.body.style.overflow = this.state.open ? 'hidden' : ''; "
-         "this._prevOpen = this.state.open; }")
+_GOOD = ("componentDidUpdate() { const lock = !!(this.state.open || this.state.menu); "
+         "if (lock !== this._prevLock) document.body.style.overflow = lock ? 'hidden' : ''; "
+         "this._prevLock = lock; }")
 if _BAD not in out:
     raise SystemExit("scroll-lock patch no longer matches source - review before building")
 out = out.replace(_BAD, _GOOD)

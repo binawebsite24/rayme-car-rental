@@ -19,8 +19,9 @@ renders.
 
 `build/build.py` unpacks it once, at build time, into real files:
 
-- `public/index.html` — 148 KB of markup instead of 18 MB
+- `public/index.html` — 150 KB of markup instead of 18 MB
 - `public/assets/images/` — the 21 car photos, named after their originals
+- `public/assets/docs/` — the rental agreement PDF the page links for download
 - `public/assets/fonts/` — Wix Madefor Display + Text (woff2)
 - `public/assets/js/` — React 18.3.1, React DOM, the dc-runtime and the design system
 
@@ -35,15 +36,27 @@ python3 build/build.py
 ```
 
 The script fails loudly if the page source has changed in a way it doesn't
-recognise, rather than emitting a half-built site.
+recognise, rather than emitting a half-built site: every asset is decoded and
+assigned its path before `public/` is touched.
+
+Nothing in the build is pinned to an asset uuid or resource id. A fresh export
+from Claude renumbers both — ids went `img7` to `r0`, and every uuid changed —
+so names come from how the page itself refers to each asset: the upload paths
+in its own `RID` map, the `font-family` its `@font-face` rules declare, and the
+header line each generated bundle starts with.
 
 ### Patch applied during build
 
 The authored page defines `componentDidUpdate(_, prevState)`, but `dc-runtime`
 invokes it as `componentDidUpdate(prevProps)` — one argument. `prevState` is
 undefined, so reading `prevState.open` threw on every render and the
-`document.body` scroll-lock behind the mobile nav never applied. The build
-rewrites that method to track the previous `open` value on the instance.
+`document.body` scroll-lock never applied. The build rewrites that method to
+track the previous value on the instance instead.
+
+The page has two things that cover the viewport: `open` (the car detail modal)
+and `menu` (the mobile nav). The authored handler only watches `open`, which
+leaves the page scrolling behind the open nav, so the rewrite widens the lock
+to cover both.
 
 ## Local preview
 
