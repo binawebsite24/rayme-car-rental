@@ -1217,7 +1217,7 @@ const FLEET = [
   { id: 'dmx', name: 'Isuzu D-Max', short: 'D-Max', sub: '4x4', flat: 290, dep: 300, late: '50', colors: [
     ['Orange', '#D2541C', 'uploads/dmax-orange.jpg_20261019153125.jpg']] },
   { id: 'mtr', spec: ["2","Manual","150cc","Petrol"], name: 'Motor Y Suku', short: 'Motor', shortEn: 'Bike', sub: 'Yamaha 150cc', pelajar: 40, bekerja: 50, late: '8', colors: [['Merah', '#C8202A', 'uploads/366047534988057be1fec0d3607c1e71.jpeg_20261019153125.jpg']] },
-  { id: 'stx', name: 'Hyundai Starex', short: 'Starex', sub: 'MPV', flat: 350, dep: 300, extra: true, late: '—', colors: [['Black', '#151515', 'uploads/starex-black.jpg_20261019153125.jpg']] },
+  { id: 'stx', name: 'Hyundai Starex', short: 'Starex', sub: 'MPV', flat: 350, dep: 300, extra: true, late: '65', colors: [['Black', '#151515', 'uploads/starex-black.jpg_20261019153125.jpg']] },
 ];
 const INFO = {
   axl: { type: 'HATCHBACK', headline: 'Axia Style: pilihan paling jimat', desc: 'Hatchback kecil untuk ke kelas, kerja dan urusan harian sekitar Shah Alam. Senang parking, senang bawa.' },
@@ -1273,7 +1273,7 @@ const TX = {
     lockDep: 'DEPOSIT · BAYAR 2 KALI', nowChip: 'SEKARANG', pickChip: 'MASA PICKUP', lockU: 'DEPOSIT 1 · LOCK TARIKH', balDep: 'DEPOSIT 2', payBook: 'Selepas Rayme sahkan kekosongan', payPick: '+ bayaran sewa & caj tambahan', secTotal: 'Jumlah deposit keselamatan (dipulangkan)', secExc: 'Starex & 4x4 (D-Max): deposit RM300.', notConfirmed: 'Hantar enquiry di WhatsApp belum bermaksud kenderaan ditempah. Tarikh dikunci selepas Rayme sahkan & bayaran lock diterima.',
     docTag: 'DOKUMEN DIPERLUKAN', docNote: 'Hantar gambar dokumen di WhatsApp dulu. Bawa dokumen asal masa pickup.', agrT: 'Perjanjian sewa', agrDl: 'Muat Turun PDF', agrView: 'Lihat dokumen', agrMeta: 'Simpan terus ke telefon anda', agrP: 'Baca, tandatangan dan tulis tarikh. Tak perlu isi keseluruhan borang.', agrBtn: 'Buka perjanjian sewa', agrNone: 'Rayme akan hantar perjanjian melalui WhatsApp sebelum pickup.',
     locTag: 'LOKASI PICKUP', locH1: 'Pangsapuri Perdana,', locH2: 'Blok 3', locName: 'Pangsapuri Perdana, Blok 3', locP: 'Tiada pejabat awam. Pickup & pulang kenderaan di Blok 3 pada masa yang dipersetujui.', mapBtn: 'Buka Google Maps', parkBtn: 'Lokasi parkir', locPrivate: 'Arahan kunci & akses dihantar secara peribadi melalui WhatsApp selepas tempahan disahkan.', pkTag: 'SEMAKAN PICKUP & PULANG', cardLoss: 'Kad akses putih hilang: caj RM120.',
-    termTag: 'TERMA & SYARAT', termH1: 'Baca jap,', termH2: 'elak drama', lateTag: 'CAJ LEWAT PULANG', lateH1: 'Kira', lateH2: 'sejam-sejam', lateNote: '* Caj bagi setiap jam lewat selepas waktu pulang yang dipersetujui. Starex: tanya Rayme.',
+    termTag: 'TERMA & SYARAT', termH1: 'Baca jap,', termH2: 'elak drama', lateTag: 'CAJ LEWAT PULANG', lateH1: 'Kira', lateH2: 'sejam-sejam', lateNote: '* Caj bagi setiap jam lewat selepas waktu pulang yang dipersetujui.',
     whyTag: 'KENAPA RAYME?', whyH1: 'Selesa, berkualiti,', whyH2: 'berbaloi', testiU: 'ULASAN', testiH1: 'Pelanggan', testiH2: 'Rayme', gNote: '145 ulasan Google semasa tangkapan skrin (Okt 2026)', gBtn: 'Ulasan Google', prevImg: 'Gambar sebelum', nextImg: 'Gambar seterusnya', custAlt: 'Pelanggan Rayme Car Rental',
     faqTag: 'SOALAN LAZIM', faqH1: 'Ada soalan?', faqH2: 'Jawapan sini',
     slotU: 'SEMAK KETERSEDIAAN', ctaH1: 'Weekend ni nak', ctaH2: 'gerak mana?', cta2: 'Pickup Blok 3, Seksyen 13 Shah Alam', cta3: 'Rate pelajar dari RM90/hari',
@@ -1312,7 +1312,7 @@ const TX = {
     lockDep: 'DEPOSIT · PAID IN 2 PARTS', nowChip: 'NOW', pickChip: 'AT PICKUP', lockU: 'DEPOSIT 1 · LOCK DATE', balDep: 'DEPOSIT 2', payBook: 'After Rayme confirms availability', payPick: '+ rental charge & any extras', secTotal: 'Total security deposit (refundable)', secExc: 'Starex & 4x4 (D-Max): RM300 deposit.', notConfirmed: "Sending an enquiry on WhatsApp doesn't book the vehicle. Your date is locked once Rayme confirms and the reservation payment is received.",
     docTag: 'REQUIRED DOCUMENTS', docNote: 'Send photos of your documents on WhatsApp first. Bring the originals at pickup.', agrT: 'Rental agreement', agrDl: 'Download PDF', agrView: 'View document', agrMeta: 'Saves straight to your phone', agrP: "Read it, sign it and add the date. You don't need to fill in the whole form.", agrBtn: 'Open rental agreement', agrNone: 'Rayme will send the agreement on WhatsApp before pickup.',
     locTag: 'PICKUP LOCATION', locH1: 'Pangsapuri Perdana,', locH2: 'Block 3', locName: 'Pangsapuri Perdana, Block 3', locP: 'There is no public office. Vehicles are picked up and returned at Block 3 at the agreed time.', mapBtn: 'Open Google Maps', parkBtn: 'Parking location', locPrivate: 'Key and access instructions are sent privately on WhatsApp once your booking is confirmed.', pkTag: 'PICKUP & RETURN CHECKLIST', cardLoss: 'Lost white access card: RM120 charge.',
-    termTag: 'TERMS & CONDITIONS', termH1: 'Quick read,', termH2: 'no drama', lateTag: 'LATE RETURN FEES', lateH1: 'Charged', lateH2: 'by the hour', lateNote: '* Charged for every hour after the agreed return time. Starex: ask Rayme.',
+    termTag: 'TERMS & CONDITIONS', termH1: 'Quick read,', termH2: 'no drama', lateTag: 'LATE RETURN FEES', lateH1: 'Charged', lateH2: 'by the hour', lateNote: '* Charged for every hour after the agreed return time.',
     whyTag: 'WHY RAYME?', whyH1: 'Comfortable, quality,', whyH2: 'great value', testiU: 'REVIEWS', testiH1: 'Rayme', testiH2: 'customers', gNote: '145 Google reviews at time of screenshot (Oct 2026)', gBtn: 'Google reviews', prevImg: 'Previous photo', nextImg: 'Next photo', custAlt: 'Rayme Car Rental customer',
     faqTag: 'FAQ', faqH1: 'Got questions?', faqH2: 'Answers here',
     slotU: 'CHECK AVAILABILITY', ctaH1: 'Where are you heading', ctaH2: 'this weekend?', cta2: 'Pickup at Block 3, Seksyen 13 Shah Alam', cta3: 'Student rate from RM90/day',
@@ -1375,7 +1375,7 @@ const DATA = {
       { q: 'Kalau nak extend sewa macam mana?', a: 'WhatsApp Rayme sebelum waktu pulang. Kalau kenderaan free, boleh extend. Kalau tak inform, dicaj lewat ikut jam.' },
       { q: 'Boleh bawa outstation?', a: 'Boleh, caj sekali RM50. Beritahu masa booking.', flag: 'out' },
       { q: 'Sewa 4 hari, seminggu atau sebulan?', a: 'Pilih tempoh dalam borang untuk anggaran (kadar harian × hari). Sewa bulanan: sebut harga melalui WhatsApp.' },
-      { q: 'Kalau lewat pulang kena charge berapa?', a: 'Saga & semua Axia RM13/jam, Bezza RM13.50/jam, Persona RM19.50/jam, D-Max RM50/jam, Motor RM8/jam. Starex: tanya Rayme.' },
+      { q: 'Kalau lewat pulang kena charge berapa?', a: 'Saga & semua Axia RM13/jam, Bezza RM13.50/jam, Persona RM19.50/jam, D-Max RM50/jam, Motor RM8/jam, Starex RM65/jam.' },
     ],
   },
   en: {
@@ -1417,7 +1417,7 @@ const DATA = {
       { q: 'How do I extend my rental?', a: "WhatsApp Rayme before your return time. If the vehicle is free, it can be extended. If you don't let us know, late fees apply by the hour." },
       { q: 'Can I drive outstation?', a: 'Yes, one-time RM50 charge. Tell us when booking.', flag: 'out' },
       { q: 'Can I rent for 4 days, a week or a month?', a: 'Choose the duration in the form for an estimate (daily rate × days). Monthly rentals: quote on WhatsApp.' },
-      { q: 'How much is the late return fee?', a: 'Saga & all Axia RM13/hr, Bezza RM13.50/hr, Persona RM19.50/hr, D-Max RM50/hr, Motorbike RM8/hr. Starex: ask Rayme.' },
+      { q: 'How much is the late return fee?', a: 'Saga & all Axia RM13/hr, Bezza RM13.50/hr, Persona RM19.50/hr, D-Max RM50/hr, Motorbike RM8/hr, Starex RM65/hr.' },
     ],
   },
 };
@@ -1657,6 +1657,7 @@ class Component extends DCLogic {
         { name: 'Proton Persona', rate: '19.50', img: 'uploads/proton-persona-armour-silver.jpg_20261019153125.jpg' },
         { name: 'Isuzu D-Max', rate: '50.00', img: 'uploads/dmax-orange.jpg_20261019153125.jpg' },
         { name: 'Motor Y Suku', rate: '8.00', img: 'uploads/366047534988057be1fec0d3607c1e71.jpeg_20261019153125.jpg' },
+        { name: 'Hyundai Starex', rate: '65.00', img: 'uploads/starex-black.jpg_20261019153125.jpg' },
       ].map(l => ({ ...l, imgRef: SR(l.img), hasImg: !!l.img, noImg: !l.img })),
       whys: dd.whys,
       faqs: dd.faqs(L, D).map(o => ({ q: o.q, a: o.a + (flagOf(o.flag) ? '  [' + flagOf(o.flag) + ']' : '') })),
