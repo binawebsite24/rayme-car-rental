@@ -136,7 +136,7 @@ CANONICAL   = "https://rayme-car-rental.vercel.app"
 TITLE       = "Rayme Car Rental — Kereta Sewa Seksyen 13, Shah Alam from RM90/day"
 DESCRIPTION = (
     "Affordable car rental in Seksyen 13, Shah Alam, next to Stadium Melawati. "
-    "Perodua Axia, Bezza and Myvi, Proton Saga and Persona, and Isuzu D-Max "
+    "Perodua Axia and Bezza, Proton Saga and Persona, and Isuzu D-Max "
     "from RM90 per 24 hours. Special rates for students and workers. "
     "Book in minutes on WhatsApp."
 )
