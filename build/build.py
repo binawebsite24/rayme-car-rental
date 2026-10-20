@@ -146,6 +146,16 @@ resource_map = {e["id"]: written[e["uuid"]] for e in ext}
 # CANONICAL is the address shared with clients; og:image must be absolute, so
 # both hosts point at this one URL. Change it here if the site moves.
 CANONICAL   = "https://rayme-car-rental.vercel.app"
+
+# WhatsApp caches a link preview against the URL in the message, for about a
+# week, with no way to purge it. The og:image name already carries the card's
+# content hash, but that never helps on its own: WhatsApp does not refetch the
+# page, so it never learns the image name changed. The link meant for sharing
+# therefore carries the same hash. When the card changes the link changes,
+# WhatsApp sees a URL it has not cached, and the new card appears. The page
+# ignores the parameter, and canonical/og:url stay clean so search engines
+# still consolidate on the one address.
+SHARE_URL = "%s/?v=%s" % (CANONICAL, _digest)
 TITLE       = "Rayme Car Rental — Kereta Sewa Seksyen 13, Shah Alam from RM90/day"
 DESCRIPTION = (
     "Affordable car rental in Seksyen 13, Shah Alam, next to Stadium Melawati. "
@@ -254,6 +264,19 @@ open(os.path.join(OUT, "sitemap.xml"), "w").write(
     '  <url><loc>%s/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>\n'
     '</urlset>\n' % CANONICAL)
 
+# Written at the repo root rather than into public/: it is a note for whoever
+# sends the link, not a page to publish. Tracked, so a changed card shows up as
+# a changed link in the diff.
+open(os.path.join(PROJ, "SHARE-LINK.txt"), "w").write(
+    SHARE_URL + "\n\n"
+    "Send this link to clients.\n\n"
+    "The ?v= value is the share card's content hash. It changes whenever the\n"
+    "card changes, so WhatsApp treats it as a new URL and fetches a fresh\n"
+    "preview instead of reusing the one it cached (it keeps previews about a\n"
+    "week and offers no way to purge them). The site ignores the parameter, so\n"
+    "the page is identical either way.\n\n"
+    "Regenerate with: python3 build/build.py\n")
+
 total = sum(os.path.getsize(os.path.join(r, f)) for r, _, fs in os.walk(OUT) for f in fs)
 print("index.html %.1f KB" % (os.path.getsize(os.path.join(OUT, "index.html"))/1024))
 print("total       %.1f MB across %d files" % (total/1048576, sum(len(fs) for _,_,fs in os.walk(OUT))))
@@ -261,3 +284,7 @@ for r, _, fs in sorted(os.walk(OUT)):
     for f in sorted(fs):
         p = os.path.join(r, f)
         print("  %-52s %8.1f KB" % (os.path.relpath(p, OUT), os.path.getsize(p)/1024))
+
+print()
+print("Share link (also saved to SHARE-LINK.txt):")
+print("  " + SHARE_URL)

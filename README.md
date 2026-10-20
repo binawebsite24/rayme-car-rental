@@ -82,9 +82,24 @@ it and injects the Open Graph, Twitter and `AutoRental` JSON-LD metadata, plus
 `og:image` has to be absolute, so both hosts point their preview at that one
 URL — change it there and rebuild if the site moves to a custom domain.
 
-WhatsApp caches a preview per URL for roughly a week. To force a fresh one
-before the cache expires, share the link with a throwaway query string
-(`?x=1`).
+### The link to send clients
+
+Take it from `SHARE-LINK.txt`, which the build rewrites each time:
+
+```
+https://rayme-car-rental.vercel.app/?v=<card hash>
+```
+
+WhatsApp caches a preview against the URL in the message, for about a week,
+with no way to purge it. Hashing the `og:image` name does not help on its own —
+WhatsApp never refetches the page, so it never learns the image name changed.
+The `?v=` value is that same card hash, so a new card means a new link, a URL
+WhatsApp has not cached, and the new preview. The site ignores the parameter,
+and `canonical`/`og:url` stay clean so search engines still consolidate on the
+one address.
+
+Sharing the bare address still works; it just shows whatever preview WhatsApp
+cached for it last.
 
 ## Deployments
 

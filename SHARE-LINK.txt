@@ -1,0 +1,11 @@
+https://rayme-car-rental.vercel.app/?v=9beceaa7
+
+Send this link to clients.
+
+The ?v= value is the share card's content hash. It changes whenever the
+card changes, so WhatsApp treats it as a new URL and fetches a fresh
+preview instead of reusing the one it cached (it keeps previews about a
+week and offers no way to purge them). The site ignores the parameter, so
+the page is identical either way.
+
+Regenerate with: python3 build/build.py
