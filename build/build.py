@@ -226,8 +226,16 @@ inject = """
     res=json.dumps(resource_map).replace("</", "<\\/"),
 )
 
-head = re.search(r"<head[^>]*>", out, re.I)
-out = out[:head.end()] + inject + out[head.end():]
+# Inject after the charset/viewport metas, not straight after <head>. The
+# charset declaration has to land in the first 1024 bytes of the document, and
+# this block is ~5 KB; pushing it down leaves a crawler guessing the encoding
+# for a title that contains an em dash.
+_anchor = None
+for _m in re.finditer(r'<meta[^>]+(?:charset|viewport)[^>]*>', out, re.I):
+    _anchor = _m
+if _anchor is None:
+    _anchor = re.search(r"<head[^>]*>", out, re.I)
+out = out[:_anchor.end()] + inject + out[_anchor.end():]
 
 # The page's own <title> is just "Rayme Car Rental"; give search results the
 # fuller one while leaving the visible design untouched.
