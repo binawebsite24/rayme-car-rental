@@ -874,6 +874,7 @@ img{max-width:100%;display:block}
           <span style="font-size:14px;font-weight:700;line-height:1.35;color:var(--mute,#B8C4D4)">{{ x.secTotal }}</span>
           <span style="font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--acct,#C6F432)">RM{{ secAmt }}</span>
         </div>
+        <p style="margin:-2px 0 0;font-size:13px;line-height:1.5;color:var(--mute2,#8D9BB0)">{{ x.secExc }}</p>
         <p data-r="body" style="margin:0;font-size:14px;line-height:1.55;color:var(--mute,#C9C6D0)">{{ p.refund }}</p>
         
         <div style="display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;border:1px solid color-mix(in srgb,var(--ink,#fff) 16%,transparent)"><x-import component-from-global-scope="UtopiaLeadGenDesignSystem_f515b4.Icon" name="message-circle" size="18" color="var(--acct,#C6F432)" hint-size="18px,18px"></x-import><span data-r="body" style="font-size:13.5px;line-height:1.5;color:var(--ink,#fff)">{{ x.notConfirmed }}</span></div>
@@ -1213,11 +1214,11 @@ const FLEET = [
     ['Silver', '#BFC3C7', 'uploads/proton-saga-2019-2024-silver.jpg_20261019153125.jpg'], ['Jet Grey', '#3E4145', 'uploads/proton-saga-2019-2024-jet-grey.jpg_20261019153125-a56e66ab.jpg']] },
   { id: 'per', spec: ["5","CVT","1.6L","Petrol"], name: 'Proton Persona', short: 'Persona', sub: 'Auto', pelajar: 130, bekerja: 135, j12: 100, late: '19.50', colors: [
     ['Armour Silver', '#B8BCC0', 'uploads/proton-persona-armour-silver.jpg_20261019153125.jpg']] },
-  { id: 'dmx', name: 'Isuzu D-Max', short: 'D-Max', sub: '4x4', flat: 290, late: '50', colors: [
+  { id: 'dmx', name: 'Isuzu D-Max', short: 'D-Max', sub: '4x4', flat: 290, dep: 300, late: '50', colors: [
     ['Orange', '#D2541C', 'uploads/dmax-orange.jpg_20261019153125.jpg']] },
   { id: 'mtr', spec: ["2","Manual","150cc","Petrol"], name: 'Motor Y Suku', short: 'Motor', shortEn: 'Bike', sub: 'Yamaha 150cc', pelajar: 40, bekerja: 50, late: '8', colors: [['Merah', '#C8202A', 'uploads/366047534988057be1fec0d3607c1e71.jpeg_20261019153125.jpg']] },
   { id: 'myv', spec: ["5","Auto","1.3L","Petrol"], name: 'Perodua Myvi', short: 'Myvi', sub: 'Auto', ask: true, extra: true, late: '—', colors: [['White', '#F2F2F0', 'uploads/myvi-white.jpg_20261019153125.jpg']] },
-  { id: 'stx', name: 'Hyundai Starex', short: 'Starex', sub: 'MPV', flat: 350, extra: true, late: '—', colors: [['Black', '#151515', 'uploads/starex-black.jpg_20261019153125.jpg']] },
+  { id: 'stx', name: 'Hyundai Starex', short: 'Starex', sub: 'MPV', flat: 350, dep: 300, extra: true, late: '—', colors: [['Black', '#151515', 'uploads/starex-black.jpg_20261019153125.jpg']] },
 ];
 const INFO = {
   axl: { type: 'HATCHBACK', headline: 'Axia Style: pilihan paling jimat', desc: 'Hatchback kecil untuk ke kelas, kerja dan urusan harian sekitar Shah Alam. Senang parking, senang bawa.' },
@@ -1272,7 +1273,7 @@ const TX = {
     noPhoto: 'Gambar akan datang', studentU: 'PELAJAR', workingU: 'BEKERJA', per24: '/24j', perDay: '/hari', allU: 'SEMUA PENYEWA', rent12U: 'SEWA 12 JAM', no12a: 'Tiada kadar 12 jam:', no12b: 'tanya sebut harga',
     askA: 'Harga belum ditetapkan', askB: '· WhatsApp untuk sebut harga', lateL: 'Lewat:', lateAsk: 'Caj lewat: tanya Rayme', perHr: '/jam', seeFull: 'Lihat butiran penuh', wk1: 'Nak sewa 4 hari, seminggu atau sebulan?', wk2: 'Pilih tempoh dalam borang →', pxNote: '* Harga tertakluk pada tarikh, musim perayaan & tempoh sewaan. Sewa berbilang hari = kadar harian × hari (anggaran).',
     howTag: 'CARA NAK SEWA', howH1: '4 langkah', howH2: 'je', origNote: 'Bawa dokumen ASAL masa pickup.', followAsk: 'Follow Rayme juga:', catL: 'Katalog WhatsApp', revL: 'Ulasan Google',
-    lockDep: 'DEPOSIT · BAYAR 2 KALI', nowChip: 'SEKARANG', pickChip: 'MASA PICKUP', lockU: 'DEPOSIT 1 · LOCK TARIKH', balDep: 'DEPOSIT 2', payBook: 'Selepas Rayme sahkan kekosongan', payPick: '+ bayaran sewa & caj tambahan', secTotal: 'Jumlah deposit keselamatan (dipulangkan)', notConfirmed: 'Hantar enquiry di WhatsApp belum bermaksud kenderaan ditempah. Tarikh dikunci selepas Rayme sahkan & bayaran lock diterima.',
+    lockDep: 'DEPOSIT · BAYAR 2 KALI', nowChip: 'SEKARANG', pickChip: 'MASA PICKUP', lockU: 'DEPOSIT 1 · LOCK TARIKH', balDep: 'DEPOSIT 2', payBook: 'Selepas Rayme sahkan kekosongan', payPick: '+ bayaran sewa & caj tambahan', secTotal: 'Jumlah deposit keselamatan (dipulangkan)', secExc: 'Starex & 4x4 (D-Max): deposit RM300.', notConfirmed: 'Hantar enquiry di WhatsApp belum bermaksud kenderaan ditempah. Tarikh dikunci selepas Rayme sahkan & bayaran lock diterima.',
     docTag: 'DOKUMEN DIPERLUKAN', docNote: 'Hantar gambar dokumen di WhatsApp dulu. Bawa dokumen asal masa pickup.', agrT: 'Perjanjian sewa', agrDl: 'Muat Turun PDF', agrView: 'Lihat dokumen', agrMeta: 'Simpan terus ke telefon anda', agrP: 'Baca, tandatangan dan tulis tarikh. Tak perlu isi keseluruhan borang.', agrBtn: 'Buka perjanjian sewa', agrNone: 'Rayme akan hantar perjanjian melalui WhatsApp sebelum pickup.',
     locTag: 'LOKASI PICKUP', locH1: 'Pangsapuri Perdana,', locH2: 'Blok 3', locName: 'Pangsapuri Perdana, Blok 3', locP: 'Tiada pejabat awam. Pickup & pulang kenderaan di Blok 3 pada masa yang dipersetujui.', mapBtn: 'Buka Google Maps', parkBtn: 'Lokasi parkir', locPrivate: 'Arahan kunci & akses dihantar secara peribadi melalui WhatsApp selepas tempahan disahkan.', pkTag: 'SEMAKAN PICKUP & PULANG', cardLoss: 'Kad akses putih hilang: caj RM120.',
     termTag: 'TERMA & SYARAT', termH1: 'Baca jap,', termH2: 'elak drama', lateTag: 'CAJ LEWAT PULANG', lateH1: 'Kira', lateH2: 'sejam-sejam', lateNote: '* Caj bagi setiap jam lewat selepas waktu pulang yang dipersetujui. Starex & Myvi: tanya Rayme.',
@@ -1311,7 +1312,7 @@ const TX = {
     noPhoto: 'Photo coming soon', studentU: 'STUDENT', workingU: 'WORKING', per24: '/24h', perDay: '/day', allU: 'ALL RENTERS', rent12U: '12-HOUR RENTAL', no12a: 'No 12-hour rate:', no12b: 'ask for a quote',
     askA: 'Price not set yet', askB: '· WhatsApp for a quote', lateL: 'Late:', lateAsk: 'Late fee: ask Rayme', perHr: '/hr', seeFull: 'See full details', wk1: 'Renting 4 days, a week or a month?', wk2: 'Choose the duration in the form →', pxNote: '* Prices depend on dates, festive periods & rental duration. Multi-day rentals = daily rate × days (estimate).',
     howTag: 'HOW TO RENT', howH1: 'Just', howH2: '4 steps', origNote: 'Bring your ORIGINAL documents at pickup.', followAsk: 'Follow Rayme too:', catL: 'WhatsApp Catalogue', revL: 'Google Reviews',
-    lockDep: 'DEPOSIT · PAID IN 2 PARTS', nowChip: 'NOW', pickChip: 'AT PICKUP', lockU: 'DEPOSIT 1 · LOCK DATE', balDep: 'DEPOSIT 2', payBook: 'After Rayme confirms availability', payPick: '+ rental charge & any extras', secTotal: 'Total security deposit (refundable)', notConfirmed: "Sending an enquiry on WhatsApp doesn't book the vehicle. Your date is locked once Rayme confirms and the reservation payment is received.",
+    lockDep: 'DEPOSIT · PAID IN 2 PARTS', nowChip: 'NOW', pickChip: 'AT PICKUP', lockU: 'DEPOSIT 1 · LOCK DATE', balDep: 'DEPOSIT 2', payBook: 'After Rayme confirms availability', payPick: '+ rental charge & any extras', secTotal: 'Total security deposit (refundable)', secExc: 'Starex & 4x4 (D-Max): RM300 deposit.', notConfirmed: "Sending an enquiry on WhatsApp doesn't book the vehicle. Your date is locked once Rayme confirms and the reservation payment is received.",
     docTag: 'REQUIRED DOCUMENTS', docNote: 'Send photos of your documents on WhatsApp first. Bring the originals at pickup.', agrT: 'Rental agreement', agrDl: 'Download PDF', agrView: 'View document', agrMeta: 'Saves straight to your phone', agrP: "Read it, sign it and add the date. You don't need to fill in the whole form.", agrBtn: 'Open rental agreement', agrNone: 'Rayme will send the agreement on WhatsApp before pickup.',
     locTag: 'PICKUP LOCATION', locH1: 'Pangsapuri Perdana,', locH2: 'Block 3', locName: 'Pangsapuri Perdana, Block 3', locP: 'There is no public office. Vehicles are picked up and returned at Block 3 at the agreed time.', mapBtn: 'Open Google Maps', parkBtn: 'Parking location', locPrivate: 'Key and access instructions are sent privately on WhatsApp once your booking is confirmed.', pkTag: 'PICKUP & RETURN CHECKLIST', cardLoss: 'Lost white access card: RM120 charge.',
     termTag: 'TERMS & CONDITIONS', termH1: 'Quick read,', termH2: 'no drama', lateTag: 'LATE RETURN FEES', lateH1: 'Charged', lateH2: 'by the hour', lateNote: '* Charged for every hour after the agreed return time. Starex & Myvi: ask Rayme.',
@@ -1500,6 +1501,11 @@ class Component extends DCLogic {
     const num = String(this.props.waNumber ?? '601127079366').replace(/\D/g, '');
     const wa = (msg) => 'https://wa.me/' + num + '?text=' + encodeURIComponent(msg);
     const L = Math.max(0, Number(this.props.lockAmount ?? 50) || 0), D = Math.max(0, Number(this.props.pickupDeposit ?? 50) || 0);
+    // Security deposit is per vehicle: FLEET.dep is the refundable total for
+    // that car, falling back to the global lock + pickup amounts. The lock
+    // portion is the same for every car, so the pickup portion carries the
+    // difference.
+    const depOf = (c) => { const v = Number(c && c.dep); return Number.isFinite(v) && v > 0 ? Math.max(v, L) : L + D; };
     const rv = false;
     const agrUrl = String(this.props.agreementUrl ?? '').trim() || RES('docs/Perjanjian-Sewa-Kenderaan-Rayme.pdf');
     const tier = this.state.tier ?? ((this.props.defaultTier ?? 'Harian') === '12 Jam' ? '12' : 'day');
@@ -1618,13 +1624,13 @@ class Component extends DCLogic {
       pay: [
         { k: x.rentEst + (dur ? ' · ' + durL : ''), v: rentS },
         ...(extrasN ? [{ k: x.extrasRow, v: 'RM' + extrasN }] : []),
-        { k: x.depBal, v: 'RM' + D },
+        { k: x.depBal, v: 'RM' + (depOf(car) - L) },
       ],
-      lockAmt: L, depAmt: D, secAmt: L + D, due: dueS,
+      lockAmt: L, depAmt: depOf(car) - L, secAmt: depOf(car), due: dueS,
       canSend: !!car && nameOk, cantSend: !(car && nameOk), trySend: () => go({ tried: true }),
       fWa: car ? wa(x.waForm({ name: fs.fName.trim() || '-', stat: statL, car: carL, pick: fmt(pick) + ', ' + fs.fTime, dur: durL, ret: retS, rent: rentS, extras: extrasTxt, lock: L, due: dueS })) : wa(x.waHi),
     };
-    const p = { lead: x.lead(L, D), refund: x.refund, cancel: x.cancel(L), ctaP: x.ctaP(L), cta1: x.cta1(L), mDep: x.mDep(L, D), formFoot: x.formFoot(L), secNote: x.secNote(L, D) };
+    const p = { lead: x.lead(L, D), refund: x.refund, cancel: x.cancel(L), ctaP: x.ctaP(L), cta1: x.cta1(L), mDep: x.mDep(L, depOf(mc) - L), formFoot: x.formFoot(L), secNote: x.secNote(L, D) };
     return {
       ...formVals,
       t, x, p, f: FLAGS, rv,
