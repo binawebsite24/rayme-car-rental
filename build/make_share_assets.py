@@ -23,9 +23,22 @@ PUBLIC   = os.path.join(os.path.dirname(HERE), "public")
 FONT_DIR = os.path.join(PUBLIC, "assets", "fonts")
 
 
+def _asset(folder, stem, ext):
+    """Assets are written with a content hash in the name, so match on the stem."""
+    import glob
+    hits = sorted(glob.glob(os.path.join(PUBLIC, "assets", folder, stem + ".*" + ext)))
+    if not hits:
+        raise SystemExit("no %s asset matching %r" % (folder, stem))
+    return hits[0]
+
+
+def _font_file(stem):
+    return _asset("fonts", stem, "woff2")
+
+
 def font(name, size, weight=800):
     """Wix Madefor is a variable font (wght 400-800); pin the axis per use."""
-    f = ImageFont.truetype(os.path.join(FONT_DIR, name), size)
+    f = ImageFont.truetype(_font_file(name), size)
     try:
         f.set_variation_by_axes([weight])
     except Exception:
@@ -34,11 +47,11 @@ def font(name, size, weight=800):
 
 
 def display(size, weight=800):
-    return font("wix-madefor-display.woff2", size, weight)
+    return font("wix-madefor-display", size, weight)
 
 
 def text(size, weight=500):
-    return font("wix-madefor-text.woff2", size, weight)
+    return font("wix-madefor-text", size, weight)
 
 
 def tracked(draw, xy, s, fnt, fill, tracking=0):
@@ -154,7 +167,7 @@ def build_icons():
 def main():
     os.makedirs(os.path.join(PUBLIC, "assets", "social"), exist_ok=True)
     out = os.path.join(PUBLIC, "assets", "social", "share-card.jpg")
-    size = build_card(out, os.path.join(PUBLIC, "assets", "images", "axia-white.jpg"))
+    size = build_card(out, _asset("images", "axia-white", "jpg"))
     build_icons()
     print("  share-card.jpg  %.0f KB  (1200x630)" % (size / 1024))
 

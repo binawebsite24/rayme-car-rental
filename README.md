@@ -19,6 +19,12 @@ renders.
 
 `build/build.py` unpacks it once, at build time, into real files:
 
+Every unpacked asset carries a content hash in its filename
+(`axia-white.2a6cf894.jpg`). `/assets/*` is served immutable for a year, so a
+file whose contents change has to change its name too — otherwise a replaced
+photo keeps its old URL and everyone who has already visited goes on seeing the
+old image until the cache expires.
+
 - `public/index.html` — 150 KB of markup instead of 18 MB
 - `public/assets/images/` — the 21 car photos, named after their originals
 - `public/assets/docs/` — the rental agreement PDF the page links for download

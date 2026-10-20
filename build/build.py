@@ -1,4 +1,4 @@
-import re, json, base64, gzip, os, shutil, sys
+import re, json, base64, gzip, os, shutil, sys, hashlib
 
 PROJ = "/Users/haneeshazli/Documents/01 Work/Website Work/Rayme Car rental/Website"
 SRC  = os.path.join(PROJ, "Rayme Car Rental.html")
@@ -74,13 +74,24 @@ def asset_path(uuid, mime, data):
 
     raise SystemExit("unmapped asset: %s (%s, %s)" % (uuid, ident, mime))
 
+def fingerprint(path, data):
+    """foo.jpg -> foo.<hash>.jpg
+
+    /assets/* is served immutable for a year, so a file whose contents change
+    has to change its name too. Without this a replaced photo keeps its old URL
+    and every browser that has already seen the site goes on showing the old
+    image until the cache expires.
+    """
+    root, ext = os.path.splitext(path)
+    return "%s.%s%s" % (root, hashlib.sha256(data).hexdigest()[:8], ext)
+
 # Decode and place every asset before touching public/, so a source the script
 # no longer understands fails without leaving a half-built site behind.
 unpacked = []
 for uuid, entry in manifest.items():
     data = base64.b64decode(entry["data"])
     if entry.get("compressed"): data = gzip.decompress(data)
-    unpacked.append((uuid, asset_path(uuid, entry["mime"], data), data))
+    unpacked.append((uuid, fingerprint(asset_path(uuid, entry["mime"], data), data), data))
 
 dupes = {p for _, p, _ in unpacked if [x[1] for x in unpacked].count(p) > 1}
 if dupes:
