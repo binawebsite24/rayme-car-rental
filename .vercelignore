@@ -1,0 +1,6 @@
+# Only public/ is served; keep the design source and tooling out of the upload.
+Rayme Car Rental.html
+build/
+.github/
+.claude/
+README.md

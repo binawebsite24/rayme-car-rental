@@ -51,6 +51,22 @@ rewrites that method to track the previous `open` value on the instance.
 python3 -m http.server 4173 --directory public
 ```
 
+## Share card and SEO
+
+`build/make_share_assets.py` draws `public/assets/social/share-card.jpg`
+(1200x630) and the favicons from the site's own brand tokens and its own Wix
+Madefor fonts, so the link preview matches the page it opens. `build.py` runs
+it and injects the Open Graph, Twitter and `AutoRental` JSON-LD metadata, plus
+`robots.txt` and `sitemap.xml`.
+
+`CANONICAL` at the top of `build/build.py` is the address shared with clients.
+`og:image` has to be absolute, so both hosts point their preview at that one
+URL — change it there and rebuild if the site moves to a custom domain.
+
+WhatsApp caches a preview per URL for roughly a week. To force a fresh one
+before the cache expires, share the link with a throwaway query string
+(`?x=1`).
+
 ## Deployments
 
 Both hosts serve `public/`:

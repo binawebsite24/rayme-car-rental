@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://rayme-car-rental.vercel.app/sitemap.xml

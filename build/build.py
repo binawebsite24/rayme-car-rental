@@ -66,19 +66,113 @@ for uuid, path in written.items():
     out = out.replace(uuid, path)
 
 resource_map = {e["id"]: written[e["uuid"]] for e in ext}
-head = re.search(r'<head[^>]*>', out, re.I)
-inject = (
-    '\n<meta name="description" content="Rayme Car Rental — affordable, reliable car rental in Malaysia. '
-    'Perodua, Proton, Hyundai and pickup rentals with easy WhatsApp booking.">\n'
-    '<link rel="preconnect" href="https://wa.me">\n'
-    '<script>window.__resources = ' + json.dumps(resource_map).replace("</", "<\\/") + ';</' + 'script>\n'
+
+# ---------------------------------------------------------------- SEO / social
+# CANONICAL is the address shared with clients; og:image must be absolute, so
+# both hosts point at this one URL. Change it here if the site moves.
+CANONICAL   = "https://rayme-car-rental.vercel.app"
+TITLE       = "Rayme Car Rental — Kereta Sewa Seksyen 13, Shah Alam from RM90/day"
+DESCRIPTION = (
+    "Affordable car rental in Seksyen 13, Shah Alam, next to Stadium Melawati. "
+    "Perodua Axia, Bezza and Myvi, Proton Saga and Persona, and Isuzu D-Max "
+    "from RM90 per 24 hours. Special rates for students and workers. "
+    "Book in minutes on WhatsApp."
 )
+
+ld = {
+    "@context": "https://schema.org",
+    "@type": "AutoRental",
+    "name": "Rayme Car Rental",
+    "description": DESCRIPTION,
+    "url": CANONICAL,
+    "image": CANONICAL + "/assets/social/share-card.jpg",
+    "telephone": "+601116920558",
+    "priceRange": "RM90-RM290",
+    "currenciesAccepted": "MYR",
+    "areaServed": {"@type": "City", "name": "Shah Alam"},
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Pangsapuri Perdana Block 3, Seksyen 13",
+        "addressLocality": "Shah Alam",
+        "addressRegion": "Selangor",
+        "addressCountry": "MY",
+    },
+    "sameAs": [
+        "https://www.instagram.com/kereta_sewa_sek_13_shah_alam",
+        "https://www.tiktok.com/@rayme.car.rental",
+        "https://www.facebook.com/share/15jkB2ToZe/",
+    ],
+    "potentialAction": {
+        "@type": "ReserveAction",
+        "target": "https://wa.me/601127079366",
+        "name": "WhatsApp Booking",
+    },
+}
+
+def esc(t):
+    return t.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+
+inject = """
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}/">
+<meta name="theme-color" content="#0E1A2B">
+<meta name="robots" content="index, follow, max-image-preview:large">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rayme Car Rental">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="{url}/">
+<meta property="og:image" content="{url}/assets/social/share-card.jpg">
+<meta property="og:image:secure_url" content="{url}/assets/social/share-card.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Rayme Car Rental — car rental in Seksyen 13, Shah Alam, from RM90 a day">
+<meta property="og:locale" content="en_MY">
+<meta property="og:locale:alternate" content="ms_MY">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{title}">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="{url}/assets/social/share-card.jpg">
+
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<script type="application/ld+json">{ld}</script>
+<script>window.__resources = {res};</script>
+""".format(
+    desc=esc(DESCRIPTION),
+    title=esc(TITLE),
+    url=CANONICAL,
+    ld=json.dumps(ld, separators=(",", ":")).replace("</", "<\\/"),
+    res=json.dumps(resource_map).replace("</", "<\\/"),
+)
+
+head = re.search(r"<head[^>]*>", out, re.I)
 out = out[:head.end()] + inject + out[head.end():]
+
+# The page's own <title> is just "Rayme Car Rental"; give search results the
+# fuller one while leaving the visible design untouched.
+out = out.replace("<title>Rayme Car Rental</title>", "<title>%s</title>" % esc(TITLE), 1)
 
 open(os.path.join(OUT, "index.html"), "w", encoding="utf-8").write(out)
 # SPA/404 fallback so deep links don't 404 on GitHub Pages
 shutil.copy(os.path.join(OUT, "index.html"), os.path.join(OUT, "404.html"))
 open(os.path.join(OUT, ".nojekyll"), "w").close()
+
+open(os.path.join(OUT, "robots.txt"), "w").write(
+    "User-agent: *\nAllow: /\n\nSitemap: %s/sitemap.xml\n" % CANONICAL)
+open(os.path.join(OUT, "sitemap.xml"), "w").write(
+    '<?xml version="1.0" encoding="UTF-8"?>\n'
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    '  <url><loc>%s/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>\n'
+    '</urlset>\n' % CANONICAL)
+
+import subprocess
+subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                "make_share_assets.py")], check=True)
 
 total = sum(os.path.getsize(os.path.join(r, f)) for r, _, fs in os.walk(OUT) for f in fs)
 print("index.html %.1f KB" % (os.path.getsize(os.path.join(OUT, "index.html"))/1024))
