@@ -105,6 +105,19 @@ for uuid, path, data in unpacked:
     open(full, "wb").write(data)
     written[uuid] = path
 
+# The share card is drawn from the unpacked fonts and photos, so it is built
+# once those exist and before the metadata that has to name it. It gets the
+# same content hash treatment: og:image is an absolute URL served immutable, so
+# a recoloured card under the old name would stay invisible behind caches.
+import subprocess
+subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                "make_share_assets.py")], check=True)
+
+_card = os.path.join(OUT, "assets", "social", "share-card.jpg")
+_digest = hashlib.sha256(open(_card, "rb").read()).hexdigest()[:8]
+SHARE_CARD = "assets/social/share-card.%s.jpg" % _digest
+os.rename(_card, os.path.join(OUT, SHARE_CARD))
+
 out = template
 
 # --- Fix: dc-runtime calls componentDidUpdate(prevProps) with ONE argument, but
@@ -147,7 +160,7 @@ ld = {
     "name": "Rayme Car Rental",
     "description": DESCRIPTION,
     "url": CANONICAL,
-    "image": CANONICAL + "/assets/social/share-card.jpg",
+    "image": CANONICAL + "/" + SHARE_CARD,
     "telephone": "+601116920558",
     "priceRange": "RM90-RM290",
     "currenciesAccepted": "MYR",
@@ -185,8 +198,8 @@ inject = """
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}/">
-<meta property="og:image" content="{url}/assets/social/share-card.jpg">
-<meta property="og:image:secure_url" content="{url}/assets/social/share-card.jpg">
+<meta property="og:image" content="{url}/{card}">
+<meta property="og:image:secure_url" content="{url}/{card}">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -197,7 +210,7 @@ inject = """
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{title}">
 <meta name="twitter:description" content="{desc}">
-<meta name="twitter:image" content="{url}/assets/social/share-card.jpg">
+<meta name="twitter:image" content="{url}/{card}">
 
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -208,6 +221,7 @@ inject = """
     desc=esc(DESCRIPTION),
     title=esc(TITLE),
     url=CANONICAL,
+    card=SHARE_CARD,
     ld=json.dumps(ld, separators=(",", ":")).replace("</", "<\\/"),
     res=json.dumps(resource_map).replace("</", "<\\/"),
 )
@@ -231,10 +245,6 @@ open(os.path.join(OUT, "sitemap.xml"), "w").write(
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     '  <url><loc>%s/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>\n'
     '</urlset>\n' % CANONICAL)
-
-import subprocess
-subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                "make_share_assets.py")], check=True)
 
 total = sum(os.path.getsize(os.path.join(r, f)) for r, _, fs in os.walk(OUT) for f in fs)
 print("index.html %.1f KB" % (os.path.getsize(os.path.join(OUT, "index.html"))/1024))

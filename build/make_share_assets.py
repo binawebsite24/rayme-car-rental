@@ -11,7 +11,8 @@ sys.path[:0] = _usp if isinstance(_usp, list) else [_usp]
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 NAVY  = (14, 26, 43)      # #0E1A2B  page background
-LIME  = (198, 244, 50)    # #C6F432  accent / wordmark
+LIME  = (198, 244, 50)    # #C6F432  site accent, still used for the icon mark
+ORANGE = (252, 92, 6)     # #FC5C06  the save-badge orange, the share card's accent
 WHITE = (255, 255, 255)
 MUTE  = (184, 196, 212)   # #B8C4D4
 
@@ -101,23 +102,23 @@ def build_card(out_path, hero_photo):
     card = Image.new("RGB", (W, H), NAVY)
     photo_panel(card, hero_photo, left=640)
 
-    # Lime hairline down the left edge — the site's accent rule.
+    # Orange hairline down the left edge — the card's accent rule.
     d = ImageDraw.Draw(card, "RGBA")
-    d.rectangle((0, 0, 7, H), fill=LIME)
+    d.rectangle((0, 0, 7, H), fill=ORANGE)
 
     y = PAD + 8
     y += pill(d, (PAD, y), "SEKSYEN 13, SHAH ALAM", display(19, 800),
-              LIME, (198, 244, 50, 20), (198, 244, 50, 90), tracking=0.2) + 34
+              ORANGE, ORANGE + (20,), ORANGE + (90,), tracking=0.2) + 34
 
     f_rayme = display(132, 800)
-    tracked(d, (PAD - 6, y - 14), "RAYME", f_rayme, LIME, -2)
+    tracked(d, (PAD - 6, y - 14), "RAYME", f_rayme, ORANGE, -2)
     y += 118
 
     f_cr = display(68, 800)
     tracked(d, (PAD - 3, y - 8), "CAR RENTAL", f_cr, WHITE, -1)
     y += 86
 
-    tracked(d, (PAD, y), "COMFORTABLE • QUALITY • VALUE", display(18, 800), LIME, 4.2)
+    tracked(d, (PAD, y), "COMFORTABLE • QUALITY • VALUE", display(18, 800), ORANGE, 4.2)
     y += 52
 
     d.text((PAD, y), "Student & worker rates", font=text(29, 500), fill=MUTE)
@@ -125,7 +126,7 @@ def build_card(out_path, hero_photo):
     f_price = display(34, 800)
     adv = d.textlength("from ", font=text(29, 500))
     d.text((PAD, y + 4), "from ", font=text(29, 500), fill=MUTE)
-    d.text((PAD + adv, y - 2), "RM90", font=f_price, fill=LIME)
+    d.text((PAD + adv, y - 2), "RM90", font=f_price, fill=ORANGE)
     adv += d.textlength("RM90", font=f_price)
     d.text((PAD + adv + 6, y + 4), "/day", font=text(29, 500), fill=WHITE)
 
@@ -134,13 +135,13 @@ def build_card(out_path, hero_photo):
     label = "WhatsApp Booking"
     cw = d.textlength(label, font=chip_f)
     cx, cy = PAD, H - PAD - 46
-    d.rounded_rectangle((cx, cy, cx + cw + 62, cy + 52), radius=26, fill=LIME)
+    d.rounded_rectangle((cx, cy, cx + cw + 62, cy + 52), radius=26, fill=ORANGE)
     bx, by = cx + 20, cy + 15
     d.ellipse((bx, by, bx + 23, by + 22), fill=NAVY)
     d.polygon([(bx + 3, by + 20), (bx + 11, by + 15), (bx + 2, by + 27)], fill=NAVY)
-    d.ellipse((bx + 7, by + 9, bx + 10, by + 12), fill=LIME)
-    d.ellipse((bx + 12, by + 9, bx + 15, by + 12), fill=LIME)
-    d.ellipse((bx + 17, by + 9, bx + 20, by + 12), fill=LIME)
+    d.ellipse((bx + 7, by + 9, bx + 10, by + 12), fill=ORANGE)
+    d.ellipse((bx + 12, by + 9, bx + 15, by + 12), fill=ORANGE)
+    d.ellipse((bx + 17, by + 9, bx + 20, by + 12), fill=ORANGE)
     d.text((cx + 54, cy + 13), label, font=chip_f, fill=NAVY)
 
     card.save(out_path, "JPEG", quality=86, optimize=True, progressive=True)
@@ -148,7 +149,11 @@ def build_card(out_path, hero_photo):
 
 
 def build_icons():
-    """Navy tile with a lime R — the mark the design source already used."""
+    """Navy tile with a lime R — the mark the design source already used.
+
+    Left on the site accent rather than the card's orange: this is the browser
+    tab and home-screen mark, not part of the link preview.
+    """
     def tile(size):
         im = Image.new("RGBA", (size, size), NAVY + (255,))
         d = ImageDraw.Draw(im)
