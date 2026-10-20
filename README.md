@@ -84,22 +84,26 @@ URL — change it there and rebuild if the site moves to a custom domain.
 
 ### The link to send clients
 
-Take it from `SHARE-LINK.txt`, which the build rewrites each time:
-
 ```
-https://rayme-car-rental.vercel.app/?v=<card hash>
+https://rayme-car-rental.vercel.app/
 ```
 
-WhatsApp caches a preview against the URL in the message, for about a week,
-with no way to purge it. Hashing the `og:image` name does not help on its own —
-WhatsApp never refetches the page, so it never learns the image name changed.
-The `?v=` value is that same card hash, so a new card means a new link, a URL
-WhatsApp has not cached, and the new preview. The site ignores the parameter,
-and `canonical`/`og:url` stay clean so search engines still consolidate on the
-one address.
+It serves the current card to anyone asking for the first time.
 
-Sharing the bare address still works; it just shows whatever preview WhatsApp
-cached for it last.
+WhatsApp caches a preview against the URL in the message for about a week and
+offers no way to purge it, and it does not refetch the page, so a URL previewed
+before the card changed keeps showing the old card. Hashing the `og:image` name
+does not help on its own — WhatsApp never learns the name changed.
+
+When that happens, `SHARE-LINK.txt` also carries a refresh link,
+`…/?v=<card hash>`. Because the hash tracks the card, that is a URL WhatsApp
+has not cached, so it fetches the new preview; send it once and go back to the
+bare address. The site ignores the parameter — the page is identical either way
+— and `canonical`/`og:url` stay on the bare address so search engines
+consolidate there.
+
+Both links, and the current hash, are printed by `python3 build/build.py` and
+written to `SHARE-LINK.txt`.
 
 ## Deployments
 

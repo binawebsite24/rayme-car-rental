@@ -1,11 +1,16 @@
-https://rayme-car-rental.vercel.app/?v=9beceaa7
+SEND THIS TO CLIENTS
+    https://rayme-car-rental.vercel.app/
 
-Send this link to clients.
+It serves the current share card to anyone asking for the first time.
 
-The ?v= value is the share card's content hash. It changes whenever the
-card changes, so WhatsApp treats it as a new URL and fetches a fresh
-preview instead of reusing the one it cached (it keeps previews about a
-week and offers no way to purge them). The site ignores the parameter, so
-the page is identical either way.
+IF WHATSAPP SHOWS AN OLD PREVIEW, SEND THIS ONCE INSTEAD
+    https://rayme-car-rental.vercel.app/?v=9beceaa7
+
+WhatsApp caches a preview against the URL in the message for about a
+week and offers no way to purge it, so a link previewed before the card
+changed keeps showing the old card. The ?v= value is the card's content
+hash, so this is a URL WhatsApp has not cached and it fetches the new
+preview. The site ignores the parameter - the page is identical either
+way - and canonical/og:url stay on the bare address for search engines.
 
 Regenerate with: python3 build/build.py
