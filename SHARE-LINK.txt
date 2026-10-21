@@ -4,7 +4,7 @@ SEND THIS TO CLIENTS
 It serves the current share card to anyone asking for the first time.
 
 IF WHATSAPP SHOWS AN OLD PREVIEW, SEND THIS ONCE INSTEAD
-    https://rayme-car-rental.vercel.app/?v=9beceaa7
+    https://rayme-car-rental.vercel.app/?v=541f3171
 
 WhatsApp caches a preview against the URL in the message for about a
 week and offers no way to purge it, so a link previewed before the card
