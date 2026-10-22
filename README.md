@@ -1,7 +1,7 @@
 # Rayme Car Rental — Website
 
 Static marketing site for Rayme Car Rental (Shah Alam, Seksyen 13), deployed to
-both GitHub Pages and Vercel.
+both Cloudflare Workers and Vercel.
 
 ## Layout
 
@@ -109,8 +109,17 @@ written to `SHARE-LINK.txt`.
 
 Both hosts serve `public/`:
 
-- **GitHub Pages** — `.github/workflows/deploy-pages.yml` publishes it on every push to `main`.
+- **Cloudflare Workers** — `wrangler.jsonc` points the static-assets runtime at it, and
+  `public/_headers` sets the caching. The Worker is connected to this repository, so a push
+  to `main` runs `npx wrangler deploy`. There is no build step: `public/` is committed.
 - **Vercel** — `vercel.json` sets `outputDirectory` to it, with immutable caching on `/assets/*`.
+
+Cloudflare reads `public/_headers` and ignores `vercel.json`; Vercel does the reverse, so the
+two files state the same caching for their own host. `build.py` regenerates `public/` from
+scratch and does not write `_headers`, so restore that file after a rebuild.
+
+Vercel remains the canonical host: `canonical`, `og:url` and the `robots.txt` sitemap line all
+point there, from `CANONICAL` in `build/build.py`.
 
 Asset paths are relative, so the site works from a subpath (`/<repo>/`) as well
 as from a domain root.
