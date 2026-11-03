@@ -1281,7 +1281,7 @@ const TX = {
     forEnq: 'Mesej sahaja · tiada panggilan', callR: 'Telefon Rayme', forCalls: 'Untuk panggilan', bezzaFrom: 'dari RM115/hari', addr: 'Pangsapuri Perdana Blok 3, Seksyen 13 Shah Alam (sebelah Stadium Melawati) · tiada pejabat awam', contactU: 'HUBUNGI RAYME', followU: 'IKUTI KAMI',
     baseRates: 'KADAR', mDocK: 'Dokumen:', mDocV: 'Hantar gambar IC + lesen di WhatsApp. Pelajar: kad pelajar. Bekerja: bil utiliti terkini. Bawa dokumen asal masa pickup.', mPickK: 'Pickup:', mPickV: 'Blok 3, Pangsapuri Perdana, Seksyen 13 Shah Alam.', mDepK: 'Bayaran:',
     pkgDay: 'Harian (24 jam)', pkg12: '12 jam', rPrice: 'Harga', rAsk: 'Tanya sebut harga', rDayS: 'Harian · Pelajar', rDayW: 'Harian · Bekerja', rDayAll: 'Harian · Semua', r12: '12 jam', rNone: 'Tiada', rLate: 'Caj lewat', ltd: 'Harga atas permintaan', dailyOnly: 'Harian sahaja', checkAv: 'Semak', onWa: ' di WhatsApp', axiaOld: 'Axia Style',
-    from: (b) => 'Dari RM' + b + ' sehari', byDate: 'Harga atas permintaan', d1: '1 hari', d4: '4 hari', d7: '1 minggu', month: '1 bulan', daily: 'Harian', waQuote: 'Sebut harga di WhatsApp',
+    from: (b) => 'Dari RM' + b + ' sehari', byDate: 'Harga atas permintaan', d1: '24 jam', d4: '4 hari', d7: '1 minggu', month: '1 bulan', daily: 'Harian', waQuote: 'Sebut harga di WhatsApp',
     flatNote: 'Harga flat untuk semua penyewa.', stuNote: (n) => 'Rate pelajar. Bekerja +RM' + n + '/hari.', estNote: 'Anggaran = kadar harian × hari. Tiada diskaun jangka panjang ditetapkan.', ltdNote: 'Kadar belum ditetapkan. WhatsApp untuk sebut harga.',
     sCar: 'Kenderaan', sPick: 'Ambil', sRet: 'Pulang', sRate: 'Kadar', flat: 'Flat', rentEst: 'Sewa (anggaran)', extrasRow: 'Caj tambahan', depBal: 'Deposit 2 (masa pickup)', quote: 'Sebut harga',
     durNote: (h12) => 'Sewa 1 minggu ke atas dapat rate jimat. Harga anggaran, Rayme sahkan di WhatsApp.' + (h12 ? '' : ' Tiada kadar 12 jam untuk kenderaan ini.'),
@@ -1320,7 +1320,7 @@ const TX = {
     forEnq: 'Messages only · no calls', callR: 'Call Rayme', forCalls: 'For calls', bezzaFrom: 'from RM115/day', addr: 'Pangsapuri Perdana Block 3, Seksyen 13 Shah Alam (next to Stadium Melawati) · no public office', contactU: 'CONTACT RAYME', followU: 'FOLLOW US',
     baseRates: 'RATES', mDocK: 'Documents:', mDocV: 'Send photos of your IC + licence on WhatsApp. Students: student card. Workers: recent utility bill. Bring originals at pickup.', mPickK: 'Pickup:', mPickV: 'Block 3, Pangsapuri Perdana, Seksyen 13 Shah Alam.', mDepK: 'Payment:',
     pkgDay: 'Daily (24 hrs)', pkg12: '12 hrs', rPrice: 'Price', rAsk: 'Ask for a quote', rDayS: 'Daily · Student', rDayW: 'Daily · Working', rDayAll: 'Daily · All', r12: '12 hours', rNone: 'N/A', rLate: 'Late fee', ltd: 'Price on request', dailyOnly: 'Daily only', checkAv: 'Check', onWa: ' on WhatsApp', axiaOld: 'Axia Style',
-    from: (b) => 'From RM' + b + ' a day', byDate: 'Price on request', d1: '1 day', d4: '4 days', d7: '1 week', month: '1 month', daily: 'Daily', waQuote: 'Quote on WhatsApp',
+    from: (b) => 'From RM' + b + ' a day', byDate: 'Price on request', d1: '24 hours', d4: '4 days', d7: '1 week', month: '1 month', daily: 'Daily', waQuote: 'Quote on WhatsApp',
     flatNote: 'Flat price for all renters.', stuNote: (n) => 'Student rate. Working +RM' + n + '/day.', estNote: 'Estimate = daily rate × days. No long-term discount has been set.', ltdNote: 'No rate set yet. WhatsApp for a quote.',
     sCar: 'Vehicle', sPick: 'Pickup', sRet: 'Return', sRate: 'Rate', flat: 'Flat', rentEst: 'Rental (estimate)', extrasRow: 'Extras', depBal: 'Deposit 2 (at pickup)', quote: 'Quote',
     durNote: (h12) => 'Rent 1 week or more for a cheaper daily rate. Estimate only, Rayme confirms on WhatsApp.' + (h12 ? '' : ' No 12-hour rate for this vehicle.'),
@@ -1364,7 +1364,7 @@ const DATA = {
       { icon: 'tag', t: 'Harga student-friendly', s: 'Ada rate khas pelajar. Jimat duit poket.' },
       { icon: 'map-pin', t: 'Pickup dekat Shah Alam', s: 'Seksyen 13, sebelah Stadium Melawati.' },
       { icon: 'sparkles', t: 'Kereta bersih & kemas', s: 'Setiap kenderaan dipulangkan bersih oleh penyewa.' },
-      { icon: 'clock', t: '12 jam hingga sebulan', s: '12 jam (model terpilih), harian, 4 hari, seminggu atau sebulan.' },
+      { icon: 'clock', t: '12 jam hingga sebulan', s: '12 jam (model terpilih), 24 jam, 4 hari, seminggu atau sebulan.' },
     ],
     faqs: (l, d) => [
       { q: 'Lesen P boleh sewa tak?', a: 'Boleh, untuk pemandu berumur 19 tahun ke atas (ikut perjanjian sewa). Bawa IC & lesen asal masa pickup.', flag: 'agr' },
@@ -1406,7 +1406,7 @@ const DATA = {
       { icon: 'tag', t: 'Student-friendly prices', s: 'Special student rates. Save your pocket money.' },
       { icon: 'map-pin', t: 'Pickup in Shah Alam', s: 'Seksyen 13, next to Stadium Melawati.' },
       { icon: 'sparkles', t: 'Clean, tidy cars', s: 'Every vehicle is returned clean by the renter.' },
-      { icon: 'clock', t: '12 hours to a month', s: '12 hours (selected models), daily, 4 days, a week or a month.' },
+      { icon: 'clock', t: '12 hours to a month', s: '12 hours (selected models), 24 hours, 4 days, a week or a month.' },
     ],
     faqs: (l, d) => [
       { q: 'Can I rent with a P licence?', a: 'Yes, for drivers aged 19 and above (per the rental agreement). Bring your original IC & licence at pickup.', flag: 'agr' },
@@ -1424,7 +1424,7 @@ const DATA = {
 };
 const THEME = { bg: '#0E1A2B', bg2: '#091322', acc: '#C6F432', acct: '#C6F432', onacc: '#0E1A2B', ink: '#FFFFFF', mute: '#B8C4D4', mute2: '#8D9BB0', faqTone: 'dark' };
 const SHOTS = ["uploads/775835204_1086588517655040_1297837597714024719_n.jpeg","uploads/780486817_1910179616625667_6996192970729706823_n.jpeg","uploads/785363267_1569378081600020_3457439482219101169_n.jpeg","uploads/787135985_1376629634673582_4205502961579799966_n.jpeg","uploads/788764654_2849033292135788_2481496173251538268_n.jpeg","uploads/790210163_1208443068156953_3283914453797012764_n.jpeg"];
-const DURS = [['12 Jam', 0.5, '12 Hours'], ['1 Hari', 1, '1 Day'], ['2 Hari', 2, '2 Days'], ['3 Hari', 3, '3 Days'], ['4 Hari', 4, '4 Days'], ['1 Minggu', 7, '1 Week'], ['1 Bulan', 30, '1 Month']];
+const DURS = [['12 Jam', 0.5, '12 Hours'], ['24 Jam', 1, '24 Hours'], ['2 Hari', 2, '2 Days'], ['3 Hari', 3, '3 Days'], ['4 Hari', 4, '4 Days'], ['1 Minggu', 7, '1 Week'], ['1 Bulan', 30, '1 Month']];
 
 const RID = {"uploads/perodua-bezza-ocean-blue.jpg_20261019153125.jpg":"r0","uploads/axia-white.jpg_20261019153125.jpg":"r1","uploads/axia-blue.jpg_20261019153125.jpg":"r2","uploads/axia-orange.jpg_20261019153125-bc68ee9d.jpg":"r3","uploads/perodua-axia-coral-blue.jpg_20261019153125.jpg":"r4","uploads/perodua-axia-granite-grey.jpg_20261019153125.jpg":"r5","uploads/perodua-bezza-glittering-silver-metallic.jpg_20261019153125.jpg":"r6","uploads/perodua-bezza-ivory-white-solid.jpg_20261019153125.jpg":"r7","uploads/proton-saga-2019-2024-silver.jpg_20261019153125.jpg":"r8","uploads/proton-saga-2019-2024-jet-grey.jpg_20261019153125-a56e66ab.jpg":"r9","uploads/proton-persona-armour-silver.jpg_20261019153125.jpg":"r10","uploads/dmax-orange.jpg_20261019153125.jpg":"r11","uploads/366047534988057be1fec0d3607c1e71.jpeg_20261019153125.jpg":"r12","uploads/starex-black.jpg_20261019153125.jpg":"r14","uploads/775835204_1086588517655040_1297837597714024719_n.jpeg":"r15","uploads/780486817_1910179616625667_6996192970729706823_n.jpeg":"r16","uploads/785363267_1569378081600020_3457439482219101169_n.jpeg":"r17","uploads/787135985_1376629634673582_4205502961579799966_n.jpeg":"r18","uploads/788764654_2849033292135788_2481496173251538268_n.jpeg":"r19","uploads/790210163_1208443068156953_3283914453797012764_n.jpeg":"r20","docs/Perjanjian-Sewa-Kenderaan-Rayme.pdf":"agrPdf"};
 const RES = (u) => (u && RID[u] && window.__resources && window.__resources[RID[u]]) || u;
@@ -1596,7 +1596,7 @@ class Component extends DCLogic {
       next3: () => (fDate >= today ? go({ step: 4, dErr: false }) : go({ dErr: true })),
       dErr: fs.dErr,
       pickPelajar: () => go({ fStat: 'Pelajar', step: 2 }), pickKerja: () => go({ fStat: 'Bekerja', step: 2 }),
-      fCars: fleetF.map(c => ({ short: c.id === 'axl' ? x.axiaOld : csh(c), price: c.ask ? x.quote : 'RM' + dayRate(c) + ' ' + x.perDay, ...sel(c.id === fs.fCar), onClick: () => go({ fCar: c.id, fDur: (fs.fDur === '12 Jam' && !c.j12) ? null : fs.fDur, step: 3 }) })),
+      fCars: fleetF.map(c => ({ short: c.id === 'axl' ? x.axiaOld : csh(c), price: c.ask ? x.quote : 'RM' + dayRate(c) + ' ' + x.per24, ...sel(c.id === fs.fCar), onClick: () => go({ fCar: c.id, fDur: (fs.fDur === '12 Jam' && !c.j12) ? null : fs.fDur, step: 3 }) })),
       fDate, minDate: today, setDate: (e) => go({ fDate: e.target.value, dErr: false }),
       fTime: fs.fTime, setTime: (e) => go({ fTime: e.target.value }),
       times: Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0') + ':00'),
@@ -1605,7 +1605,7 @@ class Component extends DCLogic {
         const tot = q ? null : priceFor(car, n);
         const saveN = !q && n >= 7 ? dayRate(car) * n - tot : 0;
         return { label: en ? d[2] : d[0], price: tot != null ? 'RM' + tot.toLocaleString('en-MY') : x.quote,
-          per: tot == null ? '' : (n === 0.5 ? (en ? 'One-time' : 'Sekali ambil') : (n === 1 ? (en ? '24 hours' : '24 jam') : 'RM' + rateFor(car, n) + ' ' + x.perDay)),
+          per: tot == null ? '' : (n === 0.5 ? (en ? 'One-time' : 'Sekali ambil') : (n === 1 ? (en ? '1 day' : '1 hari') : 'RM' + rateFor(car, n) + ' ' + x.perDay)),
           hasSave: saveN > 0, save: (en ? 'SAVE RM' : 'JIMAT RM') + saveN.toLocaleString('en-MY'),
           ...sel(d[0] === fs.fDur), onClick: () => go({ fDur: d[0], step: 5 }) };
       }),
